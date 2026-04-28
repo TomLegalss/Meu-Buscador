@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PesqOFC</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      width: 100%;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      margin-top: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    input {
+      width: 90%;
+      max-width: 600px;
+      padding: 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 20px;
+      background: #1a73e8;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* NAVEGADOR EMBUTIDO */
+    iframe {
+      width: 95%;
+      height: 75vh;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo-area">
+    <img src="https://www.google.com/favicon.ico" class="logo">
+    <span class="title">PesqOFC</span>
+  </div>
+</div>
+
+<div class="container">
+  <input id="busca" placeholder="Digite um site ou pesquisa (ex: youtube.com)">
+  <br>
+  <button onclick="abrir()">Abrir</button>
+
+  <div class="hint">
+    Alguns sites podem não abrir por bloqueio de segurança (YouTube, Google etc.)
+  </div>
+</div>
+
+<iframe id="frame"></iframe>
+
+<script>
+function abrir() {
+  let q = document.getElementById("busca").value;
+
+  if (!q.trim()) return;
+
+  // se não tiver https, adiciona
+  if (!q.startsWith("http")) {
+    q = "https://" + q;
+  }
+
+  document.getElementById("frame").src = q;
+}
+</script>
+
+</body>
+</html>
