@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscador Dark</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .topo {
+      margin-top: 80px;
+      text-align: center;
+    }
+
+    input {
+      width: 500px;
+      max-width: 90%;
+      padding: 15px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #1a73e8;
+      color: white;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #135abc;
+    }
+
+    .resultados {
+      width: 700px;
+      max-width: 95%;
+      margin-top: 40px;
+    }
+
+    .item {
+      background: #111;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .item a {
+      color: #4ea1ff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .item p {
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topo">
+  <h1>🔎 Buscador Dark</h1>
+  <input id="busca" placeholder="Pesquisar algo...">
+  <br>
+  <button onclick="pesquisar()">Buscar</button>
+</div>
+
+<div class="resultados" id="resultados"></div>
+
+<script>
+async function pesquisar() {
+  const q = document.getElementById("busca").value;
+  const box = document.getElementById("resultados");
+
+  if (!q.trim()) return;
+
+  box.innerHTML = "<p>Carregando resultados...</p>";
+
+  // API pública do DuckDuckGo
+  const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_redirect=1`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  let html = "";
+
+  if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+    data.RelatedTopics.forEach(item => {
+      if (item.Text) {
+        html += `
+          <div class="item">
+            <a href="${item.FirstURL}" target="_blank">${item.Text}</a>
+          </div>
+        `;
+      }
+    });
+  } else {
+    html = "<p>Nenhum resultado encontrado.</p>";
+  }
+
+  box.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
